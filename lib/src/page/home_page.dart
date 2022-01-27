@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:app_develop/provider/screen_provider.dart';
 import 'package:app_develop/src/page/address_page.dart';
 import 'package:app_develop/src/page/map_page.dart';
@@ -6,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:provider/provider.dart';
-
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -24,11 +25,11 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text('History'),
         actions: [
-           IconButton(
-               onPressed: () async {
-                 await Navigator.pushNamed(context, 'lista-favoritos');
-                 setState(() {});
-               },
+          IconButton(
+              onPressed: () async {
+                await Navigator.pushNamed(context, 'lista-favoritos');
+                setState(() {});
+              },
               icon: Icon(Icons.delete))
         ],
       ),
@@ -49,14 +50,28 @@ class _HomePageState extends State<HomePage> {
         child: Icon(Icons.document_scanner_rounded),
         onPressed: () async {
           String barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-              '#F13333', 'Cancelar', false, ScanMode.QR);
+              '#F13333', 'Cancel', false, ScanMode.QR);
 
           if (barcodeScanRes != '-1') {
-            print(barcodeScanRes);
+            _queryData(barcodeScanRes);
           }
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
+  }
+
+  void _queryData(data) {
+
+    Map<String, dynamic> user = jsonDecode(data);
+    user['type'] == 'url' ? _showAddress(user['value']) : _showMap(user['value']); 
+  }
+
+  void _showAddress(data) {
+    print("Esto es internet: $data");
+  }
+
+  void _showMap(data) {
+    print("Esto es mapa: $data");
   }
 }
