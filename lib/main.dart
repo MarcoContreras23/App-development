@@ -1,4 +1,5 @@
 import 'package:app_develop/provider/screen_provider.dart';
+import 'package:app_develop/src/page/geo_page.dart';
 import 'package:app_develop/src/page/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -25,6 +26,7 @@ class _MyAppState extends State<MyApp> {
         initialRoute: 'home',
         routes: {
           "home": (BuildContext context) => HomePage(),
+          "map": (_) => MapaPage(),
         },
       ),
     );
