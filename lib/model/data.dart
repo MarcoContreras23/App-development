@@ -1,10 +1,10 @@
-final String tableData = 'data';
+final String tableData = 'Qrdata';
 
 class DataFields {
   static final List<String> values = [id, type, value];
-  static final String id = '_id';
-  static final String type = '_type';
-  static final String value = '_value';
+  static final String id = 'id';
+  static final String type = 'type';
+  static final String value = 'value';
 }
 
 class Data {

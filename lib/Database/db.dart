@@ -11,7 +11,7 @@ class DB {
 
   Future<Database?> get database async {
     if (_database != null) return _database;
-    _database = await _initDB('dataQr.db');
+    _database = await _initDB('dataQr2.db');  
     return _database;
   }
 
@@ -48,7 +48,8 @@ class DB {
   Future<List<Data>> readAllData() async {
     final db = await instance.database;
     final result = await db?.query(tableData);
-    return result!.map((json) => Data.fromJson(json)).toList();
+    var result2 = result!.map((json) => Data.fromJson(json)).toList();
+    return result2;
   }
 
   Future<int> deleteData(int id) async {

@@ -76,6 +76,7 @@ class _HomePageState extends State<HomePage> {
     DB.instance.insertData(value);
     print("Esto es internet: $value"); 
     var resultado = DB.instance.readData(1);
+    var resultado2 = DB.instance.readAllData();
     print("DB: $resultado");
     
     
@@ -84,6 +85,8 @@ class _HomePageState extends State<HomePage> {
   void _showMap(value) {
       DB.instance.insertData(value);
     print("Esto es mapa: $value");
+    var resultado2 = DB.instance.readAllData();
+    print("DB: $resultado2");
   }
   
 }
