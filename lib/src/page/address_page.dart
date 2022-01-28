@@ -1,6 +1,7 @@
 import 'package:app_develop/Database/db.dart';
 import 'package:app_develop/model/data.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AddressPage extends StatefulWidget {
   AddressPage({Key? key}) : super(key: key);
@@ -10,10 +11,7 @@ class AddressPage extends StatefulWidget {
 }
 
 class _AddressPageState extends State<AddressPage> {
-  void initState() {
-    super.initState();
-  }
-
+  String _url = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,9 +22,22 @@ class _AddressPageState extends State<AddressPage> {
           return ListView.builder(
             itemCount: snapshop.data?.length,
             itemBuilder: (BuildContext context, int index) {
+              _url = snapshop.data![index].value;
               return ListTile(
                 title: Text(snapshop.data![index].value),
                 subtitle: Text(snapshop.data![index].type),
+                onTap: () {
+                  if (snapshop.data![index].type == "http") {
+                    launcherUrl(_url);
+                  }else{
+                    print(snapshop.data![index].type);
+                  }
+                },
+                leading: CircleAvatar(
+                  backgroundImage: NetworkImage(
+                      'https://previews.123rf.com/images/cowpland/cowpland1412/cowpland141200270/34978675-contactos-icono-dise%C3%B1o-plano-.jpg'),
+                ),
+                trailing: Icon(Icons.arrow_forward_ios),
               );
             },
           );
@@ -35,13 +46,15 @@ class _AddressPageState extends State<AddressPage> {
             child: Text("Error:\ ${snapshop.error}"),
           );
         } else {
-          return CircularProgressIndicator();
+          return Center(child: CircularProgressIndicator());
         }
       },
     ));
   }
 
-  Future<void> tuMetodoAsincrono() async {
-    DB.instance.readAllData();
+  void launcherUrl(url) async {
+    var concatUrl = "http://$url";
+    print(concatUrl);
+    if (!await launch(concatUrl)) throw 'Could not launch $_url';
   }
 }
