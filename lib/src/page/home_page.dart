@@ -1,9 +1,11 @@
 import 'dart:convert';
 
+import 'package:app_develop/Database/db.dart';
 import 'package:app_develop/provider/screen_provider.dart';
 import 'package:app_develop/src/page/address_page.dart';
 import 'package:app_develop/src/page/map_page.dart';
 import 'package:app_develop/widgets/bottonNavigatorBar.dart';
+import 'package:app_develop/model/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 // ignore: import_of_legacy_library_into_null_safe
@@ -37,7 +39,7 @@ class _HomePageState extends State<HomePage> {
         builder: (context, current, child) {
           switch (current.current) {
             case 0:
-              return MapPage();
+              return  MapPage();
             case 1:
               return AddressPage();
             default:
@@ -62,16 +64,26 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _queryData(data) {
-
     Map<String, dynamic> user = jsonDecode(data);
-    user['type'] == 'url' ? _showAddress(user['value']) : _showMap(user['value']); 
+    var dataQr = Data.fromJson(user);
+    
+    user['type'] == 'http'
+        ? _showAddress(dataQr)
+        : _showMap(dataQr);
   }
 
-  void _showAddress(data) {
-    print("Esto es internet: $data");
+  void _showAddress( value) {
+    DB.instance.insertData(value);
+    print("Esto es internet: $value"); 
+    var resultado = DB.instance.readData(1);
+    print("DB: $resultado");
+    
+    
   }
 
-  void _showMap(data) {
-    print("Esto es mapa: $data");
+  void _showMap(value) {
+      DB.instance.insertData(value);
+    print("Esto es mapa: $value");
   }
+  
 }
